@@ -1,7 +1,7 @@
 #####################################
-# MaNGOS Configuration file         #
+#      DiamondCore Config File      #
 #####################################
-ConfVersion=1
+ConfVersion = 2
 
 ###################################################################################################################
 # CONNECTIONS AND DIRECTORIES
@@ -41,8 +41,11 @@ ConfVersion=1
 #    WorldServerPort
 #        Default WorldServerPort
 #
+#    RealmServerPort
+#        Default RealmServerPort
+#
 #    BindIP
-#        Bind World Server to IP/hostname
+#        Bind Server to IP/hostname
 #
 ###################################################################################################################
 
@@ -54,7 +57,36 @@ WorldDatabaseInfo     = "127.0.0.1;3306;root;diamondcore;world"
 CharacterDatabaseInfo = "127.0.0.1;3306;root;diamondcore;characters"
 MaxPingTime = 30
 WorldServerPort = 8085
+RealmServerPort = 3724
 BindIP = "0.0.0.0"
+
+###################################################################################################################
+# REALM SETTINGS
+#
+#    RealmsStateUpdateDelay
+#        Realm list Update up delay (updated at realm list request if delay expired).
+#        Default: 20
+#                 0  (Disabled)
+#
+#    WrongPass.MaxCount
+#        Number of login attemps with wrong password before the account or IP is banned
+#        Default: 0  (Never ban)
+#
+#    WrongPass.BanTime
+#        Duration of the ban in seconds (0 means permanent ban)
+#        Default: 600
+#
+#    WrongPass.BanType
+#        Ban the IP or account on which login is attempted
+#        Default: 0 (Ban IP)
+#                 1 (Ban Account)
+#
+###################################################################################################################
+
+RealmsStateUpdateDelay = 20
+WrongPass.MaxCount = 0
+WrongPass.BanTime = 600
+WrongPass.BanType = 0
 
 ###################################################################################################################
 # PERFORMANCE SETINGS

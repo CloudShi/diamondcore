@@ -75,7 +75,7 @@ extern int main(int argc, char **argv)
     //char *leak = new char[1000];                          // test leak detection
 
     ///- Command line parsing to get the configuration file name
-    char const* cfg_file = _WORLD_CONFIG;
+    char const* cfg_file = _DIAMOND_CONFIG;
     int c=1;
     while( c < argc )
     {
@@ -142,6 +142,7 @@ extern int main(int argc, char **argv)
         sLog.outError("Could not find configuration file %s.", cfg_file);
         return 1;
     }
+	sLog.Initialize();
 
     sLog.outString( "%s [world-daemon]", _FULLVERSION);
     sLog.outString( "<Ctrl-C> to stop.\n\n" );

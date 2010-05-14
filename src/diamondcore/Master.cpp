@@ -23,12 +23,15 @@
 #include "WorldSocketMgr.h"
 #include "Common.h"
 #include "Master.h"
+#include "RealmList.h"
 #include "WorldSocket.h"
 #include "WorldRunnable.h"
 #include "World.h"
 #include "Log.h"
 #include "Timer.h"
 #include "Policies/SingletonImp.h"
+#include "sockets/ListenSocket.h"
+#include "AuthSocket.h"
 #include "SystemConfig.h"
 #include "Config/ConfigEnv.h"
 #include "Database/DatabaseEnv.h"
@@ -45,6 +48,8 @@
 #include "ServiceWin32.h"
 extern int m_ServiceStatus;
 #endif
+
+bool stopEvent = false;
 
 INSTANTIATE_SINGLETON_1( Master );
 
@@ -186,7 +191,7 @@ int Master::Run()
     if (!_StartDB())
         return 1;
 
-    ///- Initialize the World
+	///- Initialize the World
     sWorld.SetInitialWorldSettings();
 
     ///- Catch termination signals
@@ -219,6 +224,55 @@ int Master::Run()
     if(sConfig.GetBoolDefault ("Ra.Enable", false))
     {
         rar_thread = new ACE_Based::Thread(new RARunnable);
+    }
+
+	if (!StartDB())
+        return 1;
+
+	///- Get the list of realms for the server
+    sRealmList.Initialize(sConfig.GetIntDefault("RealmsStateUpdateDelay", 20));
+    if (sRealmList.size() == 0)
+    {
+        sLog.outError("No valid realms specified.");
+        return 1;
+    }
+
+    // cleanup query
+    //set expired bans to inactive
+    loginDatabase.Execute("UPDATE account_banned SET active = 0 WHERE unbandate <= UNIX_TIMESTAMP() AND unbandate <> bandate");
+    loginDatabase.Execute("DELETE FROM ip_banned WHERE unbandate <= UNIX_TIMESTAMP() AND unbandate <> bandate");
+
+	
+	SocketHandler h;
+	ListenSocket<AuthSocket> authListenSocket(h);
+    h.Add(&authListenSocket);
+
+	///- Launch the listening network socket
+    port_t rmport = sConfig.GetIntDefault("RealmServerPort", DEFAULT_REALMSERVER_PORT);
+    std::string bind_realm_ip = sConfig.GetStringDefault("BindIP", "0.0.0.0");
+
+    if (authListenSocket.Bind(bind_realm_ip.c_str(), rmport))
+    {
+        sLog.outError("LogonServer can not bind to %s:%d", bind_realm_ip.c_str(), rmport);
+        return 1;
+    }
+
+	// maximum counter for next ping
+    uint32 numLoops = (sConfig.GetIntDefault("MaxPingTime", 30) * (MINUTE * 1000000 / 100000));
+    uint32 loopCounter = 0;
+
+    ///- Wait for termination signal
+    while (!stopEvent)
+    {
+
+        h.Select(0, 100000);
+
+        if ((++loopCounter) == numLoops)
+        {
+            loopCounter = 0;
+            sLog.outDetail("Ping MySQL to keep connection alive");
+            delete loginDatabase.Query("SELECT 1 FROM realmlist LIMIT 1");
+        }
     }
 
     ///- Handle affinity for multiple processors and process priority on Windows
@@ -381,6 +435,26 @@ int Master::Run()
 
     ///- Exit the process with specified return value
     return World::GetExitCode();
+}
+
+/// Initialize connection to the database
+bool Master::StartDB()
+{
+    std::string dbstring = sConfig.GetStringDefault("LoginDatabaseInfo", "");
+    if (dbstring.empty())
+    {
+        sLog.outError("Database not specified");
+        return false;
+    }
+
+    sLog.outString("Database: %s", dbstring.c_str() );
+    if (!loginDatabase.Initialize(dbstring.c_str()))
+    {
+        sLog.outError("Cannot connect to database");
+        return false;
+	}
+
+    return true;
 }
 
 /// Initialize connection to the databases

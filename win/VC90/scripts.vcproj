@@ -67,10 +67,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="worldserver.lib ACEd.lib"
+				AdditionalDependencies="diamondcore.lib ACEd.lib"
 				OutputFile="$(OutDir)/Scripts.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=".\worldserver__Win32_Debug;..\..\dep\lib\win32_debug\"
+				AdditionalLibraryDirectories=".\diamondcore__Win32_Debug;..\..\dep\lib\win32_debug\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/Scripts.pdb"
 				SubSystem="2"
@@ -150,10 +150,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="worldserver.lib ACEd.lib"
+				AdditionalDependencies="diamondcore.lib ACEd.lib"
 				OutputFile="$(OutDir)/Scripts.dll"
 				LinkIncremental="2"
-				AdditionalLibraryDirectories=".\worldserver__x64_Debug;..\..\dep\lib\x64_Debug\"
+				AdditionalLibraryDirectories=".\diamondcore__x64_Debug;..\..\dep\lib\x64_Debug\"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/Scripts.pdb"
 				SubSystem="2"
@@ -231,10 +231,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="worldserver.lib ACE.lib"
+				AdditionalDependencies="diamondcore.lib ACE.lib"
 				OutputFile="$(OutDir)/Scripts.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=".\worldserver__Win32_Release;..\..\dep\lib\win32_release\"
+				AdditionalLibraryDirectories=".\diamondcore__Win32_Release;..\..\dep\lib\win32_release\"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -314,10 +314,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="worldserver.lib ACE.lib"
+				AdditionalDependencies="diamondcore.lib ACE.lib"
 				OutputFile="$(OutDir)/Scripts.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=".\worldserver__x64_Release;..\..\dep\lib\x64_release\"
+				AdditionalLibraryDirectories=".\diamondcore__x64_Release;..\..\dep\lib\x64_release\"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"

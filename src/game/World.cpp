@@ -424,7 +424,7 @@ void World::LoadConfigSettings(bool reload)
     }
     else
     {
-        if (confVersion < _WORLDCONFVERSION)
+        if (confVersion < _CONFVERSION)
         {
             sLog.outError("*****************************************************************************");
             sLog.outError(" WARNING: Your worldserver.conf version indicates your conf file is out of date!");

@@ -34,11 +34,8 @@
 #endif
 #endif
 
-#ifndef _WORLDCONFVERSION
-# define _WORLDCONFVERSION 1
-#endif
-#ifndef _LOGONCONFVERSION
-# define _LOGONCONFVERSION 1
+#ifndef _CONFVERSION
+# define _CONFVERSION 2
 #endif
 
 #if DIAMOND_ENDIAN == DIAMOND_BIGENDIAN
@@ -68,8 +65,7 @@
 # else
 # define _ENDIAN_PLATFORM "Win32 (" _ENDIAN_STRING ")"
 # endif
-# define _WORLD_CONFIG SYSCONFDIR "WorldServer.conf"
-# define _LOGON_CONFIG SYSCONFDIR "LogonServer.conf"
+# define _DIAMOND_CONFIG SYSCONFDIR "DiamondCore.conf"
 #else
 # if defined (__FreeBSD__)
 # define _ENDIAN_PLATFORM "FreeBSD_"ARCHITECTURE" (" _ENDIAN_STRING ")"
@@ -86,8 +82,7 @@
 # else
 # define _ENDIAN_PLATFORM "Unix_"ARCHITECTURE" (" _ENDIAN_STRING ")"
 # endif
-# define _WORLD_CONFIG SYSCONFDIR "WorldServer.conf"
-# define _LOGON_CONFIG SYSCONFDIR "LogonServer.conf"
+# define _DIAMOND_CONFIG SYSCONFDIR "DiamondCore.conf"
 #endif
 
 #define _FULLVERSION "Version: " REVISION_NR

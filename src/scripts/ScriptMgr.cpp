@@ -11,7 +11,7 @@
 #include "../system/system.h"
 
 #define _FULLVERSION "DiamondScripts"
-#define _SCRIPTS_CONFIG SYSCONFDIR "WorldServer.conf"
+#define _SCRIPTS_CONFIG SYSCONFDIR "DiamondCore.conf"
 
 int num_sc_scripts;
 Script *m_scripts[MAX_SCRIPTS];
